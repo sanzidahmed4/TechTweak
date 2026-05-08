@@ -1,146 +1,1441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protita - Premium Brand</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpectraPhone – Mobile Specs, Prices & Reviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0e14;
+    --surface: #13151f;
+    --surface2: #1a1d2b;
+    --border: rgba(255,255,255,0.07);
+    --accent: #4f8ef7;
+    --accent2: #a259ff;
+    --accent3: #00d4aa;
+    --text: #e8eaf2;
+    --muted: #7b7f96;
+    --tag-bg: rgba(79,142,247,0.12);
+    --card-radius: 16px;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ─────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ── HEADER ─────────────────────────────────── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(12,14,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    max-width: 1320px; margin: 0 auto;
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 32px;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: var(--font-head);
+    font-size: 22px; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    letter-spacing: -0.5px;
+  }
+  .logo span { -webkit-text-fill-color: var(--accent3); }
+
+  nav { display: flex; gap: 4px; flex: 1; }
+  nav a {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13.5px; font-weight: 500;
+    color: var(--muted);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  nav a:hover, nav a.active { color: var(--text); background: var(--surface2); }
+  nav a.active { color: var(--accent); }
+
+  .header-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 7px 14px;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    width: 220px;
+  }
+  .search-box:hover { border-color: rgba(79,142,247,0.4); }
+  .search-box span { flex: 1; }
+  .search-icon { width: 16px; height: 16px; opacity: 0.5; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #3a72e0);
+    color: #fff;
+    border: none; border-radius: 10px;
+    padding: 8px 18px;
+    font-family: var(--font-body); font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── TICKER ─────────────────────────────────── */
+  .ticker-bar {
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+    padding: 7px 0;
+    overflow: hidden;
+  }
+  .ticker-inner {
+    display: flex; gap: 0;
+    animation: ticker 38s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .ticker-inner span {
+    padding: 0 40px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.3px;
+    color: rgba(255,255,255,0.95);
+  }
+  .ticker-inner span::before { content: '◆ '; opacity: 0.7; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── LAYOUT ─────────────────────────────────── */
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+  .page-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    padding: 40px 0;
+  }
+
+  /* ── HERO SECTION ───────────────────────────── */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .hero-card {
+    position: relative; overflow: hidden;
+    border-radius: var(--card-radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .hero-card:hover { transform: translateY(-3px); border-color: rgba(79,142,247,0.3); }
+
+  .hero-main { grid-row: 1 / 3; }
+
+  .hero-img {
+    width: 100%; aspect-ratio: 16/10;
+    background: linear-gradient(135deg, #1a2340 0%, #0f1628 40%, #1a1240 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero-img .phone-mock {
+    position: absolute; bottom: -10px; right: 30px;
+    width: 130px;
+    filter: drop-shadow(0 20px 40px rgba(79,142,247,0.3));
+    animation: float 4s ease-in-out infinite;
+  }
+  .hero-img .glow {
+    position: absolute; bottom: 20px; right: 50px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(79,142,247,0.4) 0%, transparent 70%);
+    filter: blur(20px);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .hero-img .badge-new {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--accent3);
+    color: #000; font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+    letter-spacing: 0.8px; text-transform: uppercase;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+  .hero-content { padding: 20px; }
+  .hero-tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--accent);
+    font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 6px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    font-family: var(--font-head);
+    font-size: 20px; font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .hero-main .hero-title { font-size: 26px; }
+  .hero-meta { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 12px; }
+  .hero-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .sub-img {
+    width: 100%; aspect-ratio: 16/9;
+    object-fit: cover;
+    background: linear-gradient(135deg, #1f1535 0%, #0d1a2e 100%);
+    position: relative; overflow: hidden;
+    border-radius: var(--card-radius) var(--card-radius) 0 0;
+    min-height: 140px;
+  }
+
+  /* ── SECTION TITLE ──────────────────────────── */
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 20px; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: block;
+    width: 4px; height: 22px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+  }
+  .see-all {
+    font-size: 13px; font-weight: 500;
+    color: var(--accent); display: flex; align-items: center; gap: 4px;
+  }
+  .see-all:hover { text-decoration: underline; }
+
+  /* ── PHONE CARDS ────────────────────────────── */
+  .phones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .phone-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative;
+  }
+  .phone-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79,142,247,0.35);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .phone-card-img {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--surface2) 0%, #1c1f32 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phone-card-img svg { width: 80px; height: 80px; opacity: 0.8; }
+
+  .phone-badge {
+    position: absolute; top: 10px; left: 10px;
+    font-size: 10px; font-weight: 700;
+    padding: 3px 9px; border-radius: 6px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .badge-upcoming { background: rgba(162,89,255,0.2); color: var(--accent2); }
+  .badge-new { background: rgba(0,212,170,0.15); color: var(--accent3); }
+  .badge-hot { background: rgba(255,100,80,0.15); color: #ff6450; }
+
+  .wishlist-btn {
+    position: absolute; top: 10px; right: 10px;
+    width: 32px; height: 32px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 14px;
+  }
+  .wishlist-btn:hover { background: rgba(255,80,80,0.2); }
+
+  .phone-card-body { padding: 14px 16px 16px; }
+  .phone-brand { font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .phone-name { font-family: var(--font-head); font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  
+  .phone-specs {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 12px;
+  }
+  .spec-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px; color: var(--muted);
+  }
+
+  .phone-price-row { display: flex; align-items: center; justify-content: space-between; }
+  .phone-price { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--text); }
+  .phone-price small { font-family: var(--font-body); font-size: 11px; color: var(--muted); font-weight: 400; display: block; }
+  
+  .rating {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 600;
+    background: rgba(0,212,170,0.12);
+    color: var(--accent3);
+    padding: 3px 8px; border-radius: 6px;
+  }
+
+  /* ── NEWS LIST ───────────────────────────────── */
+  .news-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 40px; }
+
+  .news-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 8px;
+  }
+  .news-item:hover { border-color: rgba(79,142,247,0.3); background: var(--surface2); }
+
+  .news-thumb {
+    width: 90px; height: 68px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--surface2) 0%, #1c2040 100%);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .news-body { display: flex; flex-direction: column; gap: 4px; }
+  .news-category { font-size: 10px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+  .news-title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .news-meta { font-size: 11px; color: var(--muted); margin-top: auto; display: flex; gap: 8px; }
+
+  /* ── COMPARE SECTION ─────────────────────────── */
+  .compare-box {
+    background: linear-gradient(135deg, #111525 0%, #0e1220 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 24px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-box::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .compare-box .section-title { margin-bottom: 16px; }
+  .compare-inputs { display: flex; gap: 12px; align-items: center; }
+  .compare-select {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: var(--font-body); font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .compare-select:hover { border-color: rgba(79,142,247,0.4); }
+  .vs-badge {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; color: #fff;
+  }
+
+  /* ── BRANDS ─────────────────────────────────── */
+  .brands-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .brand-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .brand-chip:hover {
+    border-color: rgba(79,142,247,0.4);
+    background: var(--surface2);
+    transform: translateY(-2px);
+  }
+  .brand-chip .brand-emoji { font-size: 20px; margin-bottom: 4px; }
+  .brand-chip .brand-name { font-size: 11px; font-weight: 600; color: var(--muted); }
+
+  /* ── SIDEBAR ─────────────────────────────────── */
+  .sidebar { display: flex; flex-direction: column; gap: 24px; }
+
+  .sidebar-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+  }
+  .widget-head {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-head); font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .widget-head .icon { font-size: 16px; }
+
+  .widget-list { padding: 8px 0; }
+  .widget-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .widget-item:last-child { border-bottom: none; }
+  .widget-item:hover { background: var(--surface2); }
+
+  .widget-rank {
+    width: 22px; height: 22px; flex-shrink: 0;
+    border-radius: 6px;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--muted);
+  }
+  .widget-rank.top { background: rgba(79,142,247,0.15); color: var(--accent); }
+
+  .widget-phone-img {
+    width: 36px; height: 44px; flex-shrink: 0;
+    background: var(--surface2);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .widget-info { flex: 1; min-width: 0; }
+  .widget-name { font-size: 13px; font-weight: 600; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .widget-price { font-size: 12px; color: var(--accent); font-weight: 600; }
+
+  /* ── SPEC TABLE ──────────────────────────────── */
+  .spec-preview {
+    padding: 16px 18px;
+  }
+  .spec-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key { color: var(--muted); font-weight: 500; }
+  .spec-val { font-weight: 600; text-align: right; }
+
+  /* ── PRICE RANGE FILTER ──────────────────────── */
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 18px; }
+  .filter-chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted); font-family: var(--font-body); font-size: 12px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-chip:hover, .filter-chip.active { background: var(--tag-bg); color: var(--accent); border-color: rgba(79,142,247,0.4); }
+
+  /* ── UPCOMING PHONES ────────────────────────── */
+  .upcoming-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+  }
+  .upcoming-card:hover { border-color: rgba(162,89,255,0.35); transform: translateX(3px); }
+  .upcoming-thumb {
+    width: 90px; flex-shrink: 0;
+    background: linear-gradient(135deg, #1a1535 0%, #0d1030 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .upcoming-info { padding: 14px; flex: 1; }
+  .upcoming-name { font-family: var(--font-head); font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .upcoming-date { font-size: 11px; color: var(--accent2); font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+  .upcoming-specs { font-size: 11px; color: var(--muted); }
+  .upcoming-list { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ── REVIEW CARD ────────────────────────────── */
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .review-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .review-card:hover { border-color: rgba(79,142,247,0.3); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .review-img {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #12203a 0%, #1a1235 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    position: relative;
+  }
+  .play-btn {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .play-btn svg { width: 44px; height: 44px; }
+  .review-card:hover .play-btn { opacity: 1; }
+  .review-body { padding: 14px 16px; }
+  .review-label { font-size: 10px; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+  .review-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
+  .review-score {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px;
+  }
+  .score-pill {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-weight: 700; font-size: 13px;
+    padding: 2px 10px; border-radius: 6px;
+  }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 48px 0 24px;
+    margin-top: 48px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-brand .logo { display: inline-block; margin-bottom: 12px; font-size: 20px; }
+  .footer-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .social-links { display: flex; gap: 8px; }
+  .social-link {
+    width: 34px; height: 34px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .social-link:hover { border-color: rgba(79,142,247,0.4); background: var(--tag-bg); }
+  .footer-col h4 { font-family: var(--font-head); font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col ul li a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--accent); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+  }
+
+  /* ── PHONE SVG MOCKS ────────────────────────── */
+  .phone-svg { filter: drop-shadow(0 8px 24px rgba(79,142,247,0.25)); }
+
+  /* ── HERO GRADIENT BLOBS ─────────────────────── */
+  .bg-blob {
+    position: fixed; border-radius: 50%;
+    filter: blur(80px); pointer-events: none; z-index: 0;
+    opacity: 0.04;
+  }
+  .blob1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -100px; }
+  .blob2 { width: 400px; height: 400px; background: var(--accent2); bottom: 100px; left: -100px; }
+
+  /* ── TABS ───────────────────────────────────── */
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+  .tab {
+    padding: 8px 18px;
+    font-size: 13px; font-weight: 500;
+    color: var(--muted); cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+  /* ── ANNOUNCEMENTS BANNER ─────────────────────── */
+  .announcement {
+    background: linear-gradient(90deg, rgba(79,142,247,0.1) 0%, rgba(162,89,255,0.1) 100%);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: var(--card-radius);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px;
+  }
+  .announcement .icon { font-size: 20px; flex-shrink: 0; }
+  .announcement .text { font-size: 13px; }
+  .announcement .text strong { color: var(--accent); }
+
+  /* ── COLOR BARS ─────────────────────────────── */
+  .color-bar {
+    height: 3px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin: 0 -1px;
+  }
+
+  /* ── FADE IN ────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.5s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* ── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 1100px) {
+    .page-grid { grid-template-columns: 1fr; }
+    .sidebar { display: grid; grid-template-columns: repeat(2, 1fr); }
+    .brands-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .phones-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-main { grid-row: auto; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav { display: none; }
+    .brands-grid { grid-template-columns: repeat(3, 1fr); }
+    .review-grid { grid-template-columns: 1fr; }
+    .sidebar { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="logo">
-                    <img src="https://via.placeholder.com/150x50?text=PROTITA" alt="Protita Logo" class="logo-img">
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link">Home</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#services" class="nav-link">Services</a></li>
-                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-                <div class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
+
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">Spectra<span>Phone</span></div>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="#">Phones</a>
+      <a href="#">Upcoming</a>
+      <a href="#">Reviews</a>
+      <a href="#">Compare</a>
+      <a href="#">News</a>
+      <a href="#">Brands</a>
+      <a href="#">Deals</a>
     </nav>
+    <div class="header-actions">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+        <span>Search phones, specs…</span>
+        <span style="font-size:11px;background:var(--surface);padding:2px 7px;border-radius:5px;border:1px solid var(--border);">⌘K</span>
+      </div>
+      <button class="btn-primary">Compare</button>
+    </div>
+  </div>
+</header>
 
-    <!-- Hero Section -->
-    <header id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Welcome to Protita</h1>
-                <p class="hero-subtitle">Experience Excellence in Every Detail</p>
-                <a href="#services" class="btn btn-primary">Explore Now</a>
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner" id="ticker">
+    <span>Samsung Galaxy S25 Ultra – ৳1,59,999</span>
+    <span>iPhone 16 Pro Max – ৳1,89,999</span>
+    <span>OnePlus 13 – ৳79,999</span>
+    <span>Google Pixel 9 Pro – ৳1,09,999</span>
+    <span>Xiaomi 15 Pro – ৳89,999</span>
+    <span>OPPO Find X8 Pro – ৳94,999</span>
+    <span>Nothing Phone (3) – ৳69,999</span>
+    <span>Vivo X200 Pro – ৳84,999</span>
+    <span>Samsung Galaxy S25 Ultra – ৳1,59,999</span>
+    <span>iPhone 16 Pro Max – ৳1,89,999</span>
+    <span>OnePlus 13 – ৳79,999</span>
+    <span>Google Pixel 9 Pro – ৳1,09,999</span>
+    <span>Xiaomi 15 Pro – ৳89,999</span>
+    <span>OPPO Find X8 Pro – ৳94,999</span>
+    <span>Nothing Phone (3) – ৳69,999</span>
+    <span>Vivo X200 Pro – ৳84,999</span>
+  </div>
+</div>
+
+<div class="container" style="position:relative;z-index:1;">
+  <div class="page-grid">
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+      <!-- ANNOUNCEMENT -->
+      <div class="announcement fade-up" style="margin-top:32px;">
+        <div class="icon">🔥</div>
+        <div class="text"><strong>NEW:</strong> Samsung Galaxy S25 Edge is official — thinnest Galaxy ever at just 5.8mm. <a href="#" style="color:var(--accent);text-decoration:underline;">Read full specs →</a></div>
+      </div>
+
+      <!-- HERO GRID -->
+      <div class="hero-grid fade-up delay-1">
+
+        <!-- Main Hero -->
+        <div class="hero-card hero-main">
+          <div class="hero-img">
+            <div class="badge-new">JUST LAUNCHED</div>
+            <div class="glow"></div>
+            <!-- SVG Phone Mock -->
+            <svg class="phone-mock" viewBox="0 0 120 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="5" width="110" height="210" rx="20" fill="#1a1f35" stroke="#3a4060" stroke-width="2"/>
+              <rect x="10" y="10" width="100" height="200" rx="17" fill="#0f1525"/>
+              <!-- Screen -->
+              <rect x="14" y="14" width="92" height="192" rx="14" fill="#161d35"/>
+              <!-- Camera pill -->
+              <rect x="40" y="18" width="40" height="8" rx="4" fill="#0a0f1e"/>
+              <circle cx="60" cy="22" r="3" fill="#1a2040"/>
+              <!-- Screen content lines -->
+              <rect x="22" y="40" width="76" height="60" rx="6" fill="#1e2845" opacity="0.8"/>
+              <rect x="22" y="110" width="50" height="6" rx="3" fill="#2a3555"/>
+              <rect x="22" y="122" width="35" height="4" rx="2" fill="#1e2845"/>
+              <rect x="22" y="136" width="60" height="4" rx="2" fill="#1e2845"/>
+              <!-- Glow ring on camera -->
+              <circle cx="60" cy="22" r="2" fill="#4f8ef7" opacity="0.6"/>
+              <!-- Side buttons -->
+              <rect x="115" y="60" width="4" height="20" rx="2" fill="#2a3060"/>
+              <rect x="1" y="70" width="4" height="14" rx="2" fill="#2a3060"/>
+              <rect x="1" y="88" width="4" height="14" rx="2" fill="#2a3060"/>
+            </svg>
+            <!-- Decorative stars -->
+            <div style="position:absolute;top:20px;right:20px;color:rgba(79,142,247,0.3);font-size:10px;">✦ ✦ ✦</div>
+            <div style="position:absolute;bottom:30px;left:20px;font-size:11px;color:rgba(255,255,255,0.2);font-family:var(--font-head);">SNAPDRAGON 8 ELITE</div>
+          </div>
+          <div class="hero-content">
+            <div class="hero-tag">🏆 Editor's Pick</div>
+            <div class="hero-title">Samsung Galaxy S25 Ultra — The Complete Flagship Experience Reviewed</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6;">With a titanium frame, 200MP camera, and the all-new Snapdragon 8 Elite chip, the S25 Ultra sets a new bar for Android flagships in 2025.</p>
+            <div class="hero-meta">
+              <span>✍️ By Rafiq Ahmed</span>
+              <span>📅 May 7, 2026</span>
+              <span>👁 42k reads</span>
             </div>
+          </div>
         </div>
-    </header>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Protita</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <div class="icon">
-                        <i class="icon-star">⭐</i>
-                    </div>
-                    <h3>Quality</h3>
-                    <p>We deliver premium quality products and services that exceed expectations.</p>
-                </div>
-                <div class="about-card">
-                    <div class="icon">
-                        <i class="icon-rocket">🚀</i>
-                    </div>
-                    <h3>Innovation</h3>
-                    <p>Cutting-edge solutions that drive your business forward.</p>
-                </div>
-                <div class="about-card">
-                    <div class="icon">
-                        <i class="icon-heart">💎</i>
-                    </div>
-                    <h3>Excellence</h3>
-                    <p>Committed to delivering excellence in everything we do.</p>
-                </div>
+        <!-- Sub Hero 1 -->
+        <div class="hero-card">
+          <div class="sub-img" style="background:linear-gradient(135deg,#1a1030 0%,#0d1520 100%);display:flex;align-items:center;justify-content:center;font-size:52px;">📱</div>
+          <div class="hero-content">
+            <div class="hero-tag" style="background:rgba(162,89,255,0.12);color:var(--accent2);">UPCOMING</div>
+            <div class="hero-title" style="font-size:16px;">iPhone 17 Pro Max: Everything We Know So Far</div>
+            <div class="hero-meta"><span>📅 Apr 30</span><span>👁 28k</span></div>
+          </div>
+        </div>
+
+        <!-- Sub Hero 2 -->
+        <div class="hero-card">
+          <div class="sub-img" style="background:linear-gradient(135deg,#0d2020 0%,#0a1510 100%);display:flex;align-items:center;justify-content:center;font-size:52px;">🔋</div>
+          <div class="hero-content">
+            <div class="hero-tag" style="background:rgba(0,212,170,0.1);color:var(--accent3);">GUIDE</div>
+            <div class="hero-title" style="font-size:16px;">Best Phones with Biggest Batteries 2026 — Under ৳40K</div>
+            <div class="hero-meta"><span>📅 May 2</span><span>👁 19k</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRANDS -->
+      <div class="section-head fade-up delay-2">
+        <div class="section-title">Popular Brands</div>
+        <a href="#" class="see-all">All Brands →</a>
+      </div>
+      <div class="brands-grid fade-up delay-2">
+        <div class="brand-chip"><div class="brand-emoji">🍎</div><div class="brand-name">Apple</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🌌</div><div class="brand-name">Samsung</div></div>
+        <div class="brand-chip"><div class="brand-emoji">📡</div><div class="brand-name">Xiaomi</div></div>
+        <div class="brand-chip"><div class="brand-emoji">⚡</div><div class="brand-name">OnePlus</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🔵</div><div class="brand-name">OPPO</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🟢</div><div class="brand-name">Google</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🟠</div><div class="brand-name">Realme</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🔴</div><div class="brand-name">Vivo</div></div>
+        <div class="brand-chip"><div class="brand-emoji">⬛</div><div class="brand-name">Nothing</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🟡</div><div class="brand-name">Motorola</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🔷</div><div class="brand-name">Infinix</div></div>
+        <div class="brand-chip"><div class="brand-emoji">🟤</div><div class="brand-name">Tecno</div></div>
+      </div>
+
+      <!-- LATEST PHONES -->
+      <div class="section-head">
+        <div class="section-title">Latest Phones</div>
+        <a href="#" class="see-all">View All →</a>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active">All</div>
+        <div class="tab">5G</div>
+        <div class="tab">Under ৳30K</div>
+        <div class="tab">Under ৳50K</div>
+        <div class="tab">Flagship</div>
+      </div>
+
+      <div class="phones-grid">
+
+        <!-- Phone 1 -->
+        <div class="phone-card">
+          <div class="phone-card-img">
+            <span class="phone-badge badge-hot">🔥 Hot</span>
+            <div class="wishlist-btn">♡</div>
+            <svg viewBox="0 0 80 140" class="phone-svg" fill="none">
+              <rect x="4" y="4" width="72" height="132" rx="14" fill="#1a2040" stroke="#3a4570" stroke-width="1.5"/>
+              <rect x="9" y="9" width="62" height="122" rx="10" fill="#0f1530"/>
+              <rect x="24" y="11" width="32" height="6" rx="3" fill="#0a0f20"/>
+              <circle cx="40" cy="14" r="2" fill="#1a2040"/>
+              <rect x="13" y="22" width="54" height="102" rx="8" fill="#161d35"/>
+              <rect x="17" y="26" width="46" height="30" rx="4" fill="#1e2845"/>
+              <rect x="17" y="60" width="30" height="4" rx="2" fill="#2a3555"/>
+              <rect x="17" y="68" width="22" height="3" rx="1.5" fill="#1e2845"/>
+              <rect x="74" y="40" width="3" height="14" rx="1.5" fill="#2a3060"/>
+            </svg>
+          </div>
+          <div class="phone-card-body">
+            <div class="phone-brand">Samsung</div>
+            <div class="phone-name">Galaxy S25 Ultra</div>
+            <div class="phone-specs">
+              <span class="spec-chip">6.9" AMOLED</span>
+              <span class="spec-chip">200MP</span>
+              <span class="spec-chip">SD 8 Elite</span>
+              <span class="spec-chip">5000mAh</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Service One</h3>
-                    <p>Professional and efficient service delivery tailored to your needs.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Service Two</h3>
-                    <p>Comprehensive solutions designed for maximum impact and results.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Service Three</h3>
-                    <p>Expert guidance and support throughout your entire journey.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Service Four</h3>
-                    <p>Innovative approaches to solve complex business challenges.</p>
-                </div>
+            <div class="phone-price-row">
+              <div class="phone-price">৳1,59,999<small>Starting price</small></div>
+              <div class="rating">★ 9.2</div>
             </div>
+          </div>
         </div>
-    </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio">
-        <div class="container">
-            <h2 class="section-title">Our Work</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/300x200" alt="Project 1">
-                    <h3>Project One</h3>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/300x200" alt="Project 2">
-                    <h3>Project Two</h3>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/300x200" alt="Project 3">
-                    <h3>Project Three</h3>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://via.placeholder.com/300x200" alt="Project 4">
-                    <h3>Project Four</h3>
-                </div>
+        <!-- Phone 2 -->
+        <div class="phone-card">
+          <div class="phone-card-img" style="background:linear-gradient(135deg,#1a1535 0%,#0e1025 100%);">
+            <span class="phone-badge badge-new">New</span>
+            <div class="wishlist-btn">♡</div>
+            <svg viewBox="0 0 80 140" class="phone-svg" fill="none">
+              <rect x="4" y="4" width="72" height="132" rx="14" fill="#2a1040" stroke="#5a3070" stroke-width="1.5"/>
+              <rect x="9" y="9" width="62" height="122" rx="10" fill="#1a0830"/>
+              <rect x="24" y="11" width="32" height="6" rx="3" fill="#150525"/>
+              <circle cx="40" cy="14" r="2" fill="#2a1040"/>
+              <rect x="13" y="22" width="54" height="102" rx="8" fill="#1a0d30"/>
+              <rect x="17" y="26" width="46" height="30" rx="4" fill="#22103d"/>
+              <rect x="17" y="60" width="30" height="4" rx="2" fill="#341860"/>
+              <rect x="17" y="68" width="22" height="3" rx="1.5" fill="#22103d"/>
+              <rect x="74" y="40" width="3" height="14" rx="1.5" fill="#3a1860"/>
+            </svg>
+          </div>
+          <div class="phone-card-body">
+            <div class="phone-brand">Apple</div>
+            <div class="phone-name">iPhone 16 Pro Max</div>
+            <div class="phone-specs">
+              <span class="spec-chip">6.9" OLED</span>
+              <span class="spec-chip">48MP</span>
+              <span class="spec-chip">A18 Pro</span>
+              <span class="spec-chip">4685mAh</span>
             </div>
+            <div class="phone-price-row">
+              <div class="phone-price">৳1,89,999<small>Starting price</small></div>
+              <div class="rating">★ 9.4</div>
+            </div>
+          </div>
         </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <form class="contact-form" id="contactForm">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" rows="5" required></textarea>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
+        <!-- Phone 3 -->
+        <div class="phone-card">
+          <div class="phone-card-img" style="background:linear-gradient(135deg,#0d2030 0%,#081520 100%);">
+            <span class="phone-badge badge-upcoming">Upcoming</span>
+            <div class="wishlist-btn">♡</div>
+            <svg viewBox="0 0 80 140" class="phone-svg" fill="none">
+              <rect x="4" y="4" width="72" height="132" rx="14" fill="#0d2040" stroke="#1a4570" stroke-width="1.5"/>
+              <rect x="9" y="9" width="62" height="122" rx="10" fill="#071530"/>
+              <rect x="24" y="11" width="32" height="6" rx="3" fill="#050f20"/>
+              <circle cx="40" cy="14" r="2" fill="#0d2040"/>
+              <rect x="13" y="22" width="54" height="102" rx="8" fill="#0b1835"/>
+              <rect x="17" y="26" width="46" height="30" rx="4" fill="#112240"/>
+              <rect x="17" y="60" width="30" height="4" rx="2" fill="#1a3555"/>
+              <rect x="17" y="68" width="22" height="3" rx="1.5" fill="#112240"/>
+              <rect x="74" y="40" width="3" height="14" rx="1.5" fill="#1a3060"/>
+            </svg>
+          </div>
+          <div class="phone-card-body">
+            <div class="phone-brand">Google</div>
+            <div class="phone-name">Pixel 9 Pro XL</div>
+            <div class="phone-specs">
+              <span class="spec-chip">6.8" OLED</span>
+              <span class="spec-chip">50MP</span>
+              <span class="spec-chip">Tensor G4</span>
+              <span class="spec-chip">5060mAh</span>
+            </div>
+            <div class="phone-price-row">
+              <div class="phone-price">৳1,09,999<small>Starting price</small></div>
+              <div class="rating">★ 8.9</div>
+            </div>
+          </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Protita. All rights reserved.</p>
+        <!-- Phone 4 -->
+        <div class="phone-card">
+          <div class="phone-card-img" style="background:linear-gradient(135deg,#1a2010 0%,#0e1508 100%);">
+            <span class="phone-badge badge-hot">🔥 Trending</span>
+            <div class="wishlist-btn">♡</div>
+            <svg viewBox="0 0 80 140" class="phone-svg" fill="none">
+              <rect x="4" y="4" width="72" height="132" rx="14" fill="#1a3010" stroke="#3a6020" stroke-width="1.5"/>
+              <rect x="9" y="9" width="62" height="122" rx="10" fill="#0e2008"/>
+              <rect x="24" y="11" width="32" height="6" rx="3" fill="#091505"/>
+              <circle cx="40" cy="14" r="2" fill="#1a3010"/>
+              <rect x="13" y="22" width="54" height="102" rx="8" fill="#111c0b"/>
+              <rect x="17" y="26" width="46" height="30" rx="4" fill="#172512"/>
+              <rect x="17" y="60" width="30" height="4" rx="2" fill="#254018"/>
+              <rect x="74" y="40" width="3" height="14" rx="1.5" fill="#2a4520"/>
+            </svg>
+          </div>
+          <div class="phone-card-body">
+            <div class="phone-brand">OnePlus</div>
+            <div class="phone-name">OnePlus 13</div>
+            <div class="phone-specs">
+              <span class="spec-chip">6.82" AMOLED</span>
+              <span class="spec-chip">50MP</span>
+              <span class="spec-chip">SD 8 Elite</span>
+              <span class="spec-chip">6000mAh</span>
+            </div>
+            <div class="phone-price-row">
+              <div class="phone-price">৳79,999<small>Starting price</small></div>
+              <div class="rating">★ 9.0</div>
+            </div>
+          </div>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <!-- Phone 5 -->
+        <div class="phone-card">
+          <div class="phone-card-img" style="background:linear-gradient(135deg,#201010 0%,#150808 100%);">
+            <span class="phone-badge badge-new">New</span>
+            <div class="wishlist-btn">♡</div>
+            <svg viewBox="0 0 80 140" class="phone-svg" fill="none">
+              <rect x="4" y="4" width="72" height="132" rx="14" fill="#401010" stroke="#703020" stroke-width="1.5"/>
+              <rect x="9" y="9" width="62" height="122" rx="10" fill="#2a0808"/>
+              <rect x="24" y="11" width="32" height="6" rx="3" fill="#1e0505"/>
+              <circle cx="40" cy="14" r="2" fill="#401010"/>
+              <rect x="13" y="22" width="54" height="102" rx="8" fill="#300c0c"/>
+              <rect x="17" y="26" width="46" height="30" rx="4" fill="#3d1010"/>
+              <rect x="17" y="60" width="30" height="4" rx="2" fill="#551818"/>
+              <rect x="74" y="40" width="3" height="14" rx="1.5" fill="#602020"/>
+            </svg>
+          </div>
+          <div class="phone-card-body">
+            <div class="phone-brand">Xiaomi</div>
+            <div class="phone-name">Xiaomi 15 Pro</div>
+            <div class="phone-specs">
+              <span class="spec-chip">6.73" AMOLED</span>
+              <span class="spec-chip">50MP</span>
+              <span class="spec-chip">SD 8 Elite</span>
+              <span class="spec-chip">6100mAh</span>
+            </div>
+            <div class="phone-price-row">
+              <div class="phone-price">৳89,999<small>Starting price</small></div>
+              <div class="rating">★ 8.8</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone 6 -->
+        <div class="phone-card">
+          <div class="phone-card-img" style="background:linear-gradient(135deg,#151520 0%,#0e0e18 100%);">
+            <span class="phone-badge badge-new">New</span>
+            <div class="wishlist-btn">♡</div>
+            <svg viewBox="0 0 80 140" class="phone-svg" fill="none">
+              <rect x="4" y="4" width="72" height="132" rx="14" fill="#202030" stroke="#404060" stroke-width="1.5"/>
+              <rect x="9" y="9" width="62" height="122" rx="10" fill="#141420"/>
+              <rect x="24" y="11" width="32" height="6" rx="3" fill="#0e0e18"/>
+              <circle cx="40" cy="14" r="2" fill="#202030"/>
+              <rect x="13" y="22" width="54" height="102" rx="8" fill="#181825"/>
+              <rect x="17" y="26" width="46" height="30" rx="4" fill="#1e1e30"/>
+              <rect x="17" y="60" width="30" height="4" rx="2" fill="#2a2a45"/>
+              <rect x="74" y="40" width="3" height="14" rx="1.5" fill="#2a2a50"/>
+            </svg>
+          </div>
+          <div class="phone-card-body">
+            <div class="phone-brand">Nothing</div>
+            <div class="phone-name">Nothing Phone (3)</div>
+            <div class="phone-specs">
+              <span class="spec-chip">6.77" AMOLED</span>
+              <span class="spec-chip">50MP</span>
+              <span class="spec-chip">SD 7s Gen 3</span>
+              <span class="spec-chip">5000mAh</span>
+            </div>
+            <div class="phone-price-row">
+              <div class="phone-price">৳54,999<small>Starting price</small></div>
+              <div class="rating">★ 8.5</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COMPARE BOX -->
+      <div class="compare-box">
+        <div class="section-title">⚡ Quick Compare</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Select two phones to compare side-by-side specs, price, camera, battery and more.</p>
+        <div class="compare-inputs">
+          <select class="compare-select">
+            <option>Samsung Galaxy S25 Ultra</option>
+            <option>iPhone 16 Pro Max</option>
+            <option>OnePlus 13</option>
+            <option>Google Pixel 9 Pro</option>
+            <option>Xiaomi 15 Pro</option>
+          </select>
+          <div class="vs-badge">VS</div>
+          <select class="compare-select">
+            <option>iPhone 16 Pro Max</option>
+            <option>Samsung Galaxy S25 Ultra</option>
+            <option>OnePlus 13</option>
+            <option>Google Pixel 9 Pro</option>
+            <option>Xiaomi 15 Pro</option>
+          </select>
+          <button class="btn-primary" style="padding:10px 24px;">Compare Now</button>
+        </div>
+      </div>
+
+      <!-- REVIEWS -->
+      <div class="section-head">
+        <div class="section-title">Expert Reviews</div>
+        <a href="#" class="see-all">All Reviews →</a>
+      </div>
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="review-img">
+            📸
+            <div class="play-btn">
+              <svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.15)"/><polygon points="17,13 35,22 17,31" fill="white"/></svg>
+            </div>
+          </div>
+          <div class="review-body">
+            <div class="review-label">📹 Video Review</div>
+            <div class="review-title">Samsung Galaxy S25 Ultra: 30-Day Long-Term Review — Is It Worth ৳1.6 Lakh?</div>
+            <div class="review-score"><span class="score-pill">9.2</span> <span style="color:var(--muted);font-size:12px;">Exceptional</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-img" style="background:linear-gradient(135deg,#1a1040 0%,#100d30 100%);">
+            🎯
+            <div class="play-btn">
+              <svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.15)"/><polygon points="17,13 35,22 17,31" fill="white"/></svg>
+            </div>
+          </div>
+          <div class="review-body">
+            <div class="review-label">✍️ Full Review</div>
+            <div class="review-title">iPhone 16 Pro Max Review: The Best iPhone Apple Has Ever Made</div>
+            <div class="review-score"><span class="score-pill" style="background:linear-gradient(135deg,#a259ff,#6a3fbf);">9.4</span> <span style="color:var(--muted);font-size:12px;">Outstanding</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-img" style="background:linear-gradient(135deg,#0d2020 0%,#081818 100%);">
+            📷
+            <div class="play-btn">
+              <svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.15)"/><polygon points="17,13 35,22 17,31" fill="white"/></svg>
+            </div>
+          </div>
+          <div class="review-body">
+            <div class="review-label">📷 Camera Test</div>
+            <div class="review-title">Google Pixel 9 Pro vs iPhone 16 Pro: Ultimate Camera Battle 2026</div>
+            <div class="review-score"><span class="score-pill" style="background:linear-gradient(135deg,#00d4aa,#009977);">8.9</span> <span style="color:var(--muted);font-size:12px;">Excellent</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-img" style="background:linear-gradient(135deg,#201a08 0%,#181205 100%);">
+            ⚡
+            <div class="play-btn">
+              <svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.15)"/><polygon points="17,13 35,22 17,31" fill="white"/></svg>
+            </div>
+          </div>
+          <div class="review-body">
+            <div class="review-label">🔋 Battery Test</div>
+            <div class="review-title">OnePlus 13 Review: Insane Battery, Blazing Fast — Best Value Flagship?</div>
+            <div class="review-score"><span class="score-pill" style="background:linear-gradient(135deg,#f7a24f,#d4780a);">9.0</span> <span style="color:var(--muted);font-size:12px;">Excellent</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LATEST NEWS -->
+      <div class="section-head">
+        <div class="section-title">Latest News</div>
+        <a href="#" class="see-all">All News →</a>
+      </div>
+      <div class="news-list">
+        <div class="news-item">
+          <div class="news-thumb">📱</div>
+          <div class="news-body">
+            <div class="news-category">Launch</div>
+            <div class="news-title">Samsung Galaxy S25 Edge Officially Launched — World's Thinnest Galaxy at 5.8mm</div>
+            <div class="news-meta"><span>📅 May 9, 2026</span><span>👁 18.2k views</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">🍎</div>
+          <div class="news-body">
+            <div class="news-category">Leak</div>
+            <div class="news-title">iPhone 17 Pro Max Dummy Unit Leak Confirms Larger Camera Module & New Titanium Colors</div>
+            <div class="news-meta"><span>📅 May 8, 2026</span><span>👁 32.5k views</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">🤖</div>
+          <div class="news-body">
+            <div class="news-category">AI Feature</div>
+            <div class="news-title">Google Gemini AI Gets Real-Time Object Detection Mode in Pixel 9 Series Update</div>
+            <div class="news-meta"><span>📅 May 7, 2026</span><span>👁 12.1k views</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">⚡</div>
+          <div class="news-body">
+            <div class="news-category">Charging</div>
+            <div class="news-title">OnePlus 14 Spotted with 150W Charging — Could Be Fastest Charging Flagship Ever</div>
+            <div class="news-meta"><span>📅 May 6, 2026</span><span>👁 9.4k views</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">🟡</div>
+          <div class="news-body">
+            <div class="news-category">Price Drop</div>
+            <div class="news-title">Motorola Edge 50 Pro Price Slashed by ৳8,000 — Now Best Mid-Range Buy Under ৳40K</div>
+            <div class="news-meta"><span>📅 May 5, 2026</span><span>👁 7.8k views</span></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- TOP PHONES -->
+      <div class="sidebar-widget">
+        <div class="widget-head"><span class="icon">🏆</span> Top Rated Phones</div>
+        <div class="filter-chips">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip">Under ৳30K</div>
+          <div class="filter-chip">5G</div>
+          <div class="filter-chip">Camera</div>
+        </div>
+        <div class="widget-list">
+          <div class="widget-item">
+            <div class="widget-rank top">1</div>
+            <div class="widget-phone-img">📱</div>
+            <div class="widget-info">
+              <div class="widget-name">iPhone 16 Pro Max</div>
+              <div class="widget-price">৳1,89,999</div>
+            </div>
+            <div style="font-size:12px;color:var(--accent3);font-weight:700;">9.4★</div>
+          </div>
+          <div class="widget-item">
+            <div class="widget-rank top">2</div>
+            <div class="widget-phone-img">🌌</div>
+            <div class="widget-info">
+              <div class="widget-name">Galaxy S25 Ultra</div>
+              <div class="widget-price">৳1,59,999</div>
+            </div>
+            <div style="font-size:12px;color:var(--accent3);font-weight:700;">9.2★</div>
+          </div>
+          <div class="widget-item">
+            <div class="widget-rank top">3</div>
+            <div class="widget-phone-img">⚡</div>
+            <div class="widget-info">
+              <div class="widget-name">OnePlus 13</div>
+              <div class="widget-price">৳79,999</div>
+            </div>
+            <div style="font-size:12px;color:var(--accent3);font-weight:700;">9.0★</div>
+          </div>
+          <div class="widget-item">
+            <div class="widget-rank">4</div>
+            <div class="widget-phone-img">🔵</div>
+            <div class="widget-info">
+              <div class="widget-name">Google Pixel 9 Pro</div>
+              <div class="widget-price">৳1,09,999</div>
+            </div>
+            <div style="font-size:12px;color:var(--muted);font-weight:700;">8.9★</div>
+          </div>
+          <div class="widget-item">
+            <div class="widget-rank">5</div>
+            <div class="widget-phone-img">📡</div>
+            <div class="widget-info">
+              <div class="widget-name">Xiaomi 15 Pro</div>
+              <div class="widget-price">৳89,999</div>
+            </div>
+            <div style="font-size:12px;color:var(--muted);font-weight:700;">8.8★</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPCOMING PHONES -->
+      <div class="sidebar-widget">
+        <div class="widget-head"><span class="icon">🚀</span> Upcoming Phones</div>
+        <div class="upcoming-list" style="padding:12px;">
+          <div class="upcoming-card">
+            <div class="upcoming-thumb">🍎</div>
+            <div class="upcoming-info">
+              <div class="upcoming-name">iPhone 17 Pro Max</div>
+              <div class="upcoming-date">📅 Sep 2026</div>
+              <div class="upcoming-specs">A19 Pro • 48MP • USB-C</div>
+            </div>
+          </div>
+          <div class="upcoming-card">
+            <div class="upcoming-thumb">🌌</div>
+            <div class="upcoming-info">
+              <div class="upcoming-name">Galaxy Z Fold 7</div>
+              <div class="upcoming-date">📅 Jul 2026</div>
+              <div class="upcoming-specs">SD 8 Elite • 200MP • 5000mAh</div>
+            </div>
+          </div>
+          <div class="upcoming-card">
+            <div class="upcoming-thumb">⚡</div>
+            <div class="upcoming-info">
+              <div class="upcoming-name">OnePlus 14 Pro</div>
+              <div class="upcoming-date">📅 Jan 2027</div>
+              <div class="upcoming-specs">150W Charging • 6500mAh</div>
+            </div>
+          </div>
+          <div class="upcoming-card">
+            <div class="upcoming-thumb">📡</div>
+            <div class="upcoming-info">
+              <div class="upcoming-name">Xiaomi 16 Ultra</div>
+              <div class="upcoming-date">📅 Feb 2027</div>
+              <div class="upcoming-specs">Leica Camera • SD Gen 4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPEC SPOTLIGHT -->
+      <div class="sidebar-widget">
+        <div class="widget-head"><span class="icon">🔍</span> Spec Spotlight</div>
+        <div style="padding:14px 18px 6px;font-size:13px;color:var(--muted);">Samsung Galaxy S25 Ultra</div>
+        <div class="color-bar" style="margin:0 18px 0;height:2px;border-radius:1px;"></div>
+        <div class="spec-preview">
+          <div class="spec-row"><span class="spec-key">Display</span><span class="spec-val">6.9" Dynamic AMOLED 2X</span></div>
+          <div class="spec-row"><span class="spec-key">Processor</span><span class="spec-val">Snapdragon 8 Elite</span></div>
+          <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">12GB / 16GB</span></div>
+          <div class="spec-row"><span class="spec-key">Storage</span><span class="spec-val">256GB – 1TB</span></div>
+          <div class="spec-row"><span class="spec-key">Main Camera</span><span class="spec-val">200MP f/1.7</span></div>
+          <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val">5000mAh, 45W</span></div>
+          <div class="spec-row"><span class="spec-key">OS</span><span class="spec-val">One UI 7 / Android 15</span></div>
+          <div class="spec-row"><span class="spec-key">Price (BD)</span><span class="spec-val" style="color:var(--accent);">৳1,59,999</span></div>
+        </div>
+        <div style="padding:0 18px 16px;">
+          <button class="btn-primary" style="width:100%;text-align:center;padding:10px;">Full Specifications →</button>
+        </div>
+      </div>
+
+
+
+    </aside>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+
+    <!-- NEWSLETTER BANNER -->
+    <div style="background:linear-gradient(135deg,rgba(79,142,247,0.12) 0%,rgba(162,89,255,0.12) 100%);border:1px solid rgba(79,142,247,0.18);border-radius:var(--card-radius);padding:32px 40px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:6px;">📬 Stay Updated</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;max-width:420px;">Get the latest phone specs, prices and reviews delivered to your inbox weekly. No spam, ever.</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <input type="email" placeholder="Your email address" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 16px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;width:260px;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(79,142,247,0.5)'" onblur="this.style.borderColor='var(--border)'">
+        <button class="btn-primary" style="padding:11px 24px;font-size:14px;">Subscribe Free →</button>
+      </div>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Spectra<span>Phone</span></div>
+        <p class="footer-desc">Bangladesh's most comprehensive mobile phone database. Find specs, prices, reviews and news for every phone — from budget to flagship.</p>
+        <div class="social-links">
+          <div class="social-link">𝕏</div>
+          <div class="social-link">f</div>
+          <div class="social-link">▶</div>
+          <div class="social-link">📷</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Phones</h4>
+        <ul>
+          <li><a href="#">Latest Phones</a></li>
+          <li><a href="#">Upcoming Phones</a></li>
+          <li><a href="#">Best 5G Phones</a></li>
+          <li><a href="#">Budget Phones</a></li>
+          <li><a href="#">Flagship Phones</a></li>
+          <li><a href="#">Compare Phones</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Brands</h4>
+        <ul>
+          <li><a href="#">Samsung</a></li>
+          <li><a href="#">Apple</a></li>
+          <li><a href="#">Xiaomi</a></li>
+          <li><a href="#">OnePlus</a></li>
+          <li><a href="#">Google</a></li>
+          <li><a href="#">All Brands</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>More</h4>
+        <ul>
+          <li><a href="#">Reviews</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Price Tracker</a></li>
+          <li><a href="#">Deals & Offers</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 SpectraPhone. Made with ❤️ for Bangladesh.</div>
+      <div style="display:flex;gap:16px;">
+        <a href="#" style="color:var(--muted);font-size:12px;">Privacy</a>
+        <a href="#" style="color:var(--muted);font-size:12px;">Terms</a>
+        <a href="#" style="color:var(--muted);font-size:12px;">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Filter chips
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.closest('.filter-chips').querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // Brand chips hover
+  document.querySelectorAll('.brand-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.style.borderColor = 'rgba(79,142,247,0.6)';
+      setTimeout(() => chip.style.borderColor = '', 300);
+    });
+  });
+
+  // Wishlist toggle
+  document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
+      btn.style.color = btn.textContent === '♥' ? '#ff4444' : '';
+    });
+  });
+
+  // Nav active state
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  // Animate on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.phone-card, .news-item, .review-card, .upcoming-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    observer.observe(el);
+  });
+</script>
 </body>
 </html>
