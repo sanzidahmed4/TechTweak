@@ -55,3 +55,15 @@
     el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
     observer.observe(el);
   });
+
+// Header search submit
+const searchForm = document.getElementById('site-search-form');
+const searchInput = document.getElementById('site-search-input');
+if (searchForm && searchInput) {
+  searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const keyword = searchInput.value.trim();
+    if (!keyword) return;
+    alert(`Searching for: ${keyword}`);
+  });
+}

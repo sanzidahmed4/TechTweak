@@ -92,8 +92,26 @@
     width: 220px;
   }
   .search-box:hover { border-color: rgba(79,142,247,0.4); }
-  .search-box span { flex: 1; }
-  .search-icon { width: 16px; height: 16px; opacity: 0.5; }
+  .search-box input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--text);
+    font-size: 13px;
+  }
+  .search-box input::placeholder { color: var(--muted); }
+  .search-btn {
+    width: 28px; height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--muted);
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .search-btn:hover { border-color: rgba(79,142,247,0.45); color: var(--accent); }
+  .search-icon { width: 16px; height: 16px; opacity: 0.75; }
 
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), #3a72e0);

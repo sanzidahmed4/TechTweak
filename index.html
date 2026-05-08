@@ -29,11 +29,12 @@
       <a href="#">Deals</a>
     </nav>
     <div class="header-actions">
-      <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-        <span>Search phones, specs…</span>
-        <span style="font-size:11px;background:var(--surface);padding:2px 7px;border-radius:5px;border:1px solid var(--border);">⌘K</span>
-      </div>
+      <form class="search-box" id="site-search-form" role="search">
+        <input id="site-search-input" type="search" placeholder="Search phones, specs…" aria-label="Search phones and specs">
+        <button type="submit" class="search-btn" aria-label="Search">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+        </button>
+      </form>
       <button class="btn-primary">Compare</button>
     </div>
   </div>
